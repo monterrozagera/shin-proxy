@@ -1,5 +1,5 @@
-import threading
 # TCP Proxy based on BHP v2
+import threading
 import socket
 import sys
 
@@ -54,6 +54,7 @@ def responseHandler(buffer):
     return buffer
 
 def proxyHandler(client_socket, remote_host, remote_port, receive_first):
+    # starts socket handler
     remote_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     remote_socket.connect((remote_host, remote_port))
 
@@ -93,8 +94,10 @@ def proxyHandler(client_socket, remote_host, remote_port, receive_first):
             break
 
 def server_loop(local_host, local_port, remote_host, remote_port, receive_first):
+    # starts forwarder socket object
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
+        # binds IP and port
         server.bind((local_host, local_port))
     except Exception as e:
         print('[!] Problem binding on %r' % e)
