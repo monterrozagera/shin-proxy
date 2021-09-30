@@ -1,2 +1,2 @@
 # shin-proxy
-simple python TCP proxy aimed to test applications
+Simple python TCP proxy aimed to test applications. Based on BHP v2
