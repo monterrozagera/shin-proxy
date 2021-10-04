@@ -127,13 +127,13 @@ def main():
     parser.add_argument('-lp', type=str, help='Local port.')
     parser.add_argument('-rh', type=str, help='Remote host domain or IP.')
     parser.add_argument('-rp', type=str, help='Remote port.')
-    parser.add_argument('-receive', type=str, help='Receive first, true or false.')
+    parser.add_argument('--receive', type=str, help='Receive first, true or false.')
     args = parser.parse_args()
 
     if len(sys.argv[1:]) != 5:
-        print("Usage ./shin_proxy.py [localhost] [localport]", end='')
-        print("[remotehost] [remoteport] [receive_first]")
-        print("Example: ./shin_proxy.py 127.0.0.1 9999 10.12.132.1 9999 True")
+        print("\nUsage ./shin_proxy.py -lh [localhost] -lp [localport]", end='')
+        print(" -rh [remotehost] -rp [remoteport] --receive [receive_first]")
+        print("\nExample: ./shin_proxy.py -lh 127.0.0.1 -lp 9999 -rh 10.12.132.1 -rp 9999 --receive True")
         sys.exit(0)
 
     local_host = args.lh
