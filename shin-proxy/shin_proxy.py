@@ -1,5 +1,6 @@
 # TCP Proxy based on BHP v2
 import threading
+import argparse
 import socket
 import sys
 
@@ -98,6 +99,7 @@ def server_loop(local_host, local_port, remote_host, remote_port, receive_first)
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         # binds IP and port
+        server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         server.bind((local_host, local_port))
     except Exception as e:
         print('[!] Problem binding on %r' % e)
@@ -120,19 +122,27 @@ def server_loop(local_host, local_port, remote_host, remote_port, receive_first)
         proxy_thread.start()
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-lh', type=str, help='Local host domain or IP.')
+    parser.add_argument('-lp', type=str, help='Local port.')
+    parser.add_argument('-rh', type=str, help='Remote host domain or IP.')
+    parser.add_argument('-rp', type=str, help='Remote port.')
+    parser.add_argument('-receive', type=str, help='Receive first, true or false.')
+    args = parser.parse_args()
+
     if len(sys.argv[1:]) != 5:
         print("Usage ./shin_proxy.py [localhost] [localport]", end='')
         print("[remotehost] [remoteport] [receive_first]")
         print("Example: ./shin_proxy.py 127.0.0.1 9999 10.12.132.1 9999 True")
         sys.exit(0)
 
-    local_host = sys.argv[1]
-    local_port = int(sys.argv[2])
+    local_host = args.lh
+    local_port = args.lp
 
-    remote_host = sys.argv[3]
-    remote_port = int(sys.argv[4])
+    remote_host = args.rh
+    remote_port = args.rp
 
-    receive_first = sys.argv[5]
+    receive_first = args.receive
 
     if "True" in receive_first:
         receive_first = True
